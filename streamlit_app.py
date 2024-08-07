@@ -23,10 +23,10 @@ st.title('Import des DataSets')
 @st.cache_data
 def load_data():
     https://github.com/ChristopheMontoriol/French_Industry_Janv24/tree/d5ac2da1d2c8622d926f8471a9cc42e4d0d70a86/data
-    etablissement = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/tree/d5ac2da1d2c8622d926f8471a9cc42e4d0d70a86/data/base_etablissement_par_tranche_effectif.csv', sep=',')
-    geographic = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/tree/d5ac2da1d2c8622d926f8471a9cc42e4d0d70a86/data/name_geographic_information.csv', sep=',')
+    etablissement = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/base_etablissement_par_tranche_effectif.csv', sep=',')
+    geographic = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/name_geographic_information.csv', sep=',')
     # population = pd.read_csv('Z:/Data Analyst/Formation_DataAnalyst/Projet/french_industry/population.csv', sep=',')
-    salaire = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/tree/d5ac2da1d2c8622d926f8471a9cc42e4d0d70a86/data/net_salary_per_town_categories.csv', sep=',')
+    salaire = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/net_salary_per_town_categories.csv', sep=',')
     return etablissement, geographic, population, salaire
 
 etablissement, geographic, population, salaire = load_data()
