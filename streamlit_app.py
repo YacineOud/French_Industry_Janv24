@@ -20,13 +20,18 @@ warnings.filterwarnings('ignore')
 st.title('Import des DataSets')
 
 # Charger les données
+# Charger les données
 @st.cache_data
 def load_data():
-    https://github.com/ChristopheMontoriol/French_Industry_Janv24/tree/d5ac2da1d2c8622d926f8471a9cc42e4d0d70a86/data
-    etablissement = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/base_etablissement_par_tranche_effectif.csv', sep=',')
-    geographic = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/name_geographic_information.csv', sep=',')
-    # population = pd.read_csv('Z:/Data Analyst/Formation_DataAnalyst/Projet/french_industry/population.csv', sep=',')
-    salaire = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/net_salary_per_town_categories.csv', sep=',')
+    etablissement_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/base_etablissement_par_tranche_effectif.csv'
+    geographic_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/name_geographic_information.csv'
+    # population_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/population.csv'
+    salaire_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/net_salary_per_town_categories.csv'
+    
+    etablissement = pd.read_csv(etablissement_url, sep=',')
+    geographic = pd.read_csv(geographic_url, sep=',')
+    # population = pd.read_csv(population_url, sep=',')
+    salaire = pd.read_csv(salaire_url, sep=',')
     return etablissement, geographic, population, salaire
 
 etablissement, geographic, population, salaire = load_data()
