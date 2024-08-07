@@ -22,10 +22,11 @@ st.title('Import des DataSets')
 # Charger les données
 @st.cache_data
 def load_data():
-    etablissement = pd.read_csv('Z:/Data Analyst/Formation_DataAnalyst/Projet/french_industry/base_etablissement_par_tranche_effectif.csv', sep=',')
-    geographic = pd.read_csv('Z:/Data Analyst/Formation_DataAnalyst/Projet/french_industry/name_geographic_information.csv', sep=',')
-    population = pd.read_csv('Z:/Data Analyst/Formation_DataAnalyst/Projet/french_industry/population.csv', sep=',')
-    salaire = pd.read_csv('Z:/Data Analyst/Formation_DataAnalyst/Projet/french_industry/net_salary_per_town_categories.csv', sep=',')
+    https://github.com/ChristopheMontoriol/French_Industry_Janv24/tree/d5ac2da1d2c8622d926f8471a9cc42e4d0d70a86/data
+    etablissement = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/tree/d5ac2da1d2c8622d926f8471a9cc42e4d0d70a86/data/base_etablissement_par_tranche_effectif.csv', sep=',')
+    geographic = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/tree/d5ac2da1d2c8622d926f8471a9cc42e4d0d70a86/data/name_geographic_information.csv', sep=',')
+    # population = pd.read_csv('Z:/Data Analyst/Formation_DataAnalyst/Projet/french_industry/population.csv', sep=',')
+    salaire = pd.read_csv('https://github.com/ChristopheMontoriol/French_Industry_Janv24/tree/d5ac2da1d2c8622d926f8471a9cc42e4d0d70a86/data/net_salary_per_town_categories.csv', sep=',')
     return etablissement, geographic, population, salaire
 
 etablissement, geographic, population, salaire = load_data()
@@ -76,8 +77,8 @@ st.write("Colonnes du dataset 'etablissement' :")
 st.write(etablissement.columns)
 st.write("Colonnes du dataset 'geographic' :")
 st.write(geographic.columns)
-st.write("Colonnes du dataset 'population' :")
-st.write(population.columns)
+# st.write("Colonnes du dataset 'population' :")
+# st.write(population.columns)
 st.write("Colonnes du dataset 'salaire' :")
 st.write(salaire.columns)
 
@@ -88,8 +89,8 @@ st.dataframe(etablissement.head(10))
 st.write("Aperçu des données 'geographic' :")
 st.dataframe(geographic.head(10))
 
-st.write("Aperçu des données 'population' :")
-st.dataframe(population.head(10))
+# st.write("Aperçu des données 'population' :")
+# st.dataframe(population.head(10))
 
 st.write("Aperçu des données 'salaire' :")
 st.dataframe(salaire.head(10))
@@ -107,11 +108,11 @@ geographic.info(buf=buffer)
 s = buffer.getvalue()
 st.text(s)
 
-st.write("Information sur les données 'population' :")
-buffer = io.StringIO()
-population.info(buf=buffer)
-s = buffer.getvalue()
-st.text(s)
+# st.write("Information sur les données 'population' :")
+# buffer = io.StringIO()
+# population.info(buf=buffer)
+# s = buffer.getvalue()
+# st.text(s)
 
 st.write("Information sur les données 'salaire' :")
 buffer = io.StringIO()
