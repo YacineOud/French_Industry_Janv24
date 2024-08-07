@@ -32,9 +32,9 @@ def load_data():
     geographic = pd.read_csv(geographic_url, sep=',')
     # population = pd.read_csv(population_url, sep=',')
     salaire = pd.read_csv(salaire_url, sep=',')
-    return etablissement, geographic, population, salaire
+    return etablissement, geographic, salaire
 
-etablissement, geographic, population, salaire = load_data()
+etablissement, geographic, salaire = load_data()
 
 # Pré-processing
 # ---------------------------------------------------------------------------------------------------------------
