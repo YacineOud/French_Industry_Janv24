@@ -23,10 +23,10 @@ st.title('Import des DataSets')
 # Charger les données
 @st.cache_data
 def load_data():
-    etablissement_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/base_etablissement_par_tranche_effectif.csv'
-    geographic_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/name_geographic_information.csv'
-    # population_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/population.csv'
-    salaire_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/dc756aeb201ec50569ba461d90993cf1893bab98/data/net_salary_per_town_categories.csv'
+    etablissement_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/main/data/base_etablissement_par_tranche_effectif.csv'
+    geographic_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/main/data/name_geographic_information.csv'
+    # population_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/main/data/population.csv'
+    salaire_url = 'https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/main/data/net_salary_per_town_categories.csv'
     
     etablissement = pd.read_csv(etablissement_url, sep=',')
     geographic = pd.read_csv(geographic_url, sep=',')
