@@ -55,18 +55,18 @@ salaire['CODGEO'] = salaire['CODGEO'].str.lstrip('0').str.replace('A', '0').str.
 # Configuration de la barre latérale
 st.sidebar.title("Sommaire")
 pages = ["👋 Intro", "🔍 Exploration des données", "📊 Data Visualisation", "🧩 Modélisation", "🔮 Prédiction", "📌 Conclusion"]
-
-# Gestion de l'état de la page via session_state
-if 'page' not in st.session_state:
-    st.session_state.page = "Etablissement"
-
-# Sélection de la page de données entre Exploration des données et Data Visualisation
-data_pages = ["Etablissement", "Geographic", "Salaire"]
-st.sidebar.markdown("### Choix des données")
-st.session_state.page = st.sidebar.selectbox("Sélection de la page", data_pages, index=data_pages.index(st.session_state.page))
-
-# Navigation principale
 page = st.sidebar.radio("Aller vers", pages)
+
+# Affichage de la sélection des données uniquement pour la page "Exploration des données"
+if page == pages[0]:
+    # Gestion de l'état de la page via session_state
+    if 'page' not in st.session_state:
+        st.session_state.page = "Etablissement"
+
+    # Sélection de la page de données
+    data_pages = ["Etablissement", "Geographic", "Salaire"]
+    st.sidebar.markdown("### Choix des données")
+    st.session_state.page = st.sidebar.selectbox("Sélection de la page", data_pages, index=data_pages.index(st.session_state.page))
 
 st.sidebar.markdown(
     """
@@ -146,5 +146,6 @@ elif page == pages[4]:
 elif page == pages[5]:
     st.header("📌 Conclusion")
     st.write("**Conclusion**")
+
 
 
