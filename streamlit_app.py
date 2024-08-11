@@ -58,7 +58,7 @@ pages = ["👋 Intro", "🔍 Exploration des données", "📊 Data Visualisation
 page = st.sidebar.radio("Aller vers", pages)
 
 # Affichage de la sélection des données uniquement pour la page "Exploration des données"
-if page == pages[0]:
+if page == pages[1]:
     # Gestion de l'état de la page via session_state
     if 'page' not in st.session_state:
         st.session_state.page = "Etablissement"
