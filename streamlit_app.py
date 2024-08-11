@@ -1,41 +1,27 @@
-# import streamlit as st
-# import pandas as pd
-
-# # URL du fichier CSV
-# csv_url = "https://raw.githubusercontent.com/ChristopheMontoriol/French_Industry_Janv24/main/data/base_etablissement_par_tranche_effectif.csv"
-
-# # Lecture du CSV
-# @st.cache_data
-# def load_data(url):
-#     return pd.read_csv(url, sep=',')
-
-# # Chargement des données
-# data = load_data(csv_url)
-
-# # Affichage des 10 premières lignes
-# st.title("Affichage des 10 premières lignes du CSV")
-# st.write(data.head(10))
 
 import streamlit as st
-import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+import seaborn as sns
 import plotly.express as px
+from io import StringIO
+import requests
+from io import BytesIO
+from PIL import Image
+from scipy.stats import normaltest
+from scipy.stats import norm
+import pickle
+import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import statsmodels.api as sm
 import io
 
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 # Pour éviter d'avoir les messages warning
 import warnings
 warnings.filterwarnings('ignore')
 
-# Titre de l'application
-st.title('Import des DataSets')
 
 # Charger les données
 @st.cache_data
@@ -94,50 +80,166 @@ salaire['CODGEO'] = salaire['CODGEO'].str.lstrip('0')
 # Remplacer les lettres A ou B par des zéros
 salaire['CODGEO'] = salaire['CODGEO'].str.replace('A', '0').str.replace('B', '0')
 
-# Afficher les données chargées
-st.write("Colonnes du dataset 'etablissement' :")
-st.write(etablissement.columns)
-st.write("Colonnes du dataset 'geographic' :")
-st.write(geographic.columns)
-# st.write("Colonnes du dataset 'population' :")
-# st.write(population.columns)
-st.write("Colonnes du dataset 'salaire' :")
-st.write(salaire.columns)
 
-# Afficher un aperçu des données
-st.write("Aperçu des données 'etablissement' :")
-st.dataframe(etablissement.head(10))
+# Configuration de la barre latérale
+st.sidebar.title("Sommaire")
+pages=["👋 Intro", "🔍 Exploration des données", "📊 Data Visualisation", "🧩 Modélisation", "🔮 Prédiction", "📌Conclusion"]
+page=st.sidebar.radio("Aller vers", pages)
+st.sidebar.markdown(
+    """
+    - **Cursus** : Data Analyst
+    - **Formation** : Formation Continue
+    - **Mois** : Janvier 2024
+   - **Groupe** : 
+        - Christophe MONTORIOL
+        - Issam YOUSR
+        - Gwilherm DEVALLAN
+        - Yacine OUDMINE""")
 
-st.write("Aperçu des données 'geographic' :")
-st.dataframe(geographic.head(10))
+####################################################################################################
+# Page d'introduction
+####################################################################################################
 
-# st.write("Aperçu des données 'population' :")
-# st.dataframe(population.head(10))
 
-st.write("Aperçu des données 'salaire' :")
-st.dataframe(salaire.head(10))
 
-# Afficher les informations sur les datasets
-st.write("Information sur les données 'etablissement' :")
-buffer = io.StringIO()
-etablissement.info(buf=buffer)
-s = buffer.getvalue()
-st.text(s)
+if page == pages[0] :
+    
+    # Présentation projet
+    st.caption("""**Cursus** : Data Analyst
+    | **Formation** : Formation Continue
+    | **Mois** : Janvier 2024
+    | **Groupe** : Christophe MONTORIOL,Issam YOUSR,Gwilherm DEVALLAN,Yacine OUDMINE
+        """)
 
-st.write("Information sur les données 'geographic' :")
-buffer = io.StringIO()
-geographic.info(buf=buffer)
-s = buffer.getvalue()
-st.text(s)
 
-# st.write("Information sur les données 'population' :")
-# buffer = io.StringIO()
-# population.info(buf=buffer)
-# s = buffer.getvalue()
-# st.text(s)
+    st.header("👋 Intro")
+    st.markdown("""<style>h1 {color: #4629dd;  font-size: 70px;/* Changez la couleur du titre h1 ici */} h2 {color: #440154ff;    font-size: 50px /* Changez la couleur du titre h2 ici */} h3{color: #27dce0; font-size: 30px; /* Changez la couleur du titre h3 ici */}</style>""",unsafe_allow_html=True)
+    st.markdown("""<style>body {background-color: #f4f4f4;</style>""",unsafe_allow_html=True)
 
-st.write("Information sur les données 'salaire' :")
-buffer = io.StringIO()
-salaire.info(buf=buffer)
-s = buffer.getvalue()
-st.text(s)
+    st.write(  """
+    L’objectif premier de ce projet est d’observer et de comprendre quelles sont les inégalités salariales en France.
+    À travers plusieurs jeux de données et plusieurs variables (géographiques, socio-professionnelles, démographiques, mais aussi du nombre d’entreprises par zone), 
+    il sera question dans ce projet de mettre en lumière les facteurs d’inégalités les plus déterminants et de recenser ainsi les variables qui ont un impact significatif sur les deltas de salaire.
+
+    En plus de distinguer les variables les plus déterminantes sur les niveaux de revenus, l’objectif de cette étude sera de construire des clusters ou des groupes de pairs. 
+    Ces groupes seront fondés sur la base des revenus de ces individus ayant des niveaux de salaire proches.  
+    
+    Enfin, au-delà d’un travail d'observation et d’analyse statistique, le second volet de ce projet s’articulera autour de la création d’un modèle de Machine Learning capable de prédire le plus finement possible 
+    un salaire en fonction des différentes variables à disposition dans ces jeux de données.
+    """)
+
+    
+            
+####################################################################################################
+# Page d'exploration des données
+####################################################################################################
+
+if page == pages[1] : 
+    #st.header("🔍 Exploration des Données")
+    st.markdown("""<style>h1 {color: #4629dd;  font-size: 70px;/* Changez la couleur du titre h1 ici */} h2 {color: #440154ff;    font-size: 50px /* Changez la couleur du titre h2 ici */} h3{color: #27dce0; font-size: 30px; /* Changez la couleur du titre h3 ici */}</style>""",unsafe_allow_html=True)
+    st.markdown("""<style>body {background-color: #f4f4f4;</style>""",unsafe_allow_html=True)
+
+
+    # Gestion de l'état de la page via session_state
+    if 'page' not in st.session_state:
+        st.session_state.page = "Etablissement"
+
+    # Sélection de la page
+    pages = ["Etablissement", "Geographic", "Salaire"]
+    st.session_state.page = st.sidebar.selectbox("Choisissez la page", pages, index=pages.index(st.session_state.page))
+
+    # Ajout de styles personnalisés
+    st.markdown("""
+        <style>
+            h1 {color: #4629dd; font-size: 70px;}
+            h2 {color: #440154ff; font-size: 50px;}
+            h3 {color: #27dce0; font-size: 30px;}
+            body {background-color: #f4f4f4;}
+        </style>
+    """, unsafe_allow_html=True)
+
+    # Fonction pour afficher les informations des DataFrames
+    def afficher_info(dataframe, name):
+        st.write(f"### {name}")
+        st.write("#### .head()")
+        st.write(dataframe.head())
+        
+        st.write("#### .info()")
+        buffer = io.StringIO()
+        dataframe.info(buf=buffer)
+        st.text(buffer.getvalue())
+        
+        st.write("#### .describe()")
+        st.write(dataframe.describe())
+
+    # Affichage des informations en fonction de la page sélectionnée
+    if st.session_state.page == "Etablissement":
+        st.header("🔍 Exploration des Données - Etablissement")
+        afficher_info(etablissement, "Etablissement")
+        if st.button("Voir Geographic"):
+            st.session_state.page = "Geographic"
+        if st.button("Voir Salaire"):
+            st.session_state.page = "Salaire"
+
+    elif st.session_state.page == "Geographic":
+        st.header("🔍 Exploration des Données - Geographic")
+        afficher_info(geographic, "Geographic")
+        if st.button("Voir Etablissement"):
+            st.session_state.page = "Etablissement"
+        if st.button("Voir Salaire"):
+            st.session_state.page = "Salaire"
+
+    elif st.session_state.page == "Salaire":
+        st.header("🔍 Exploration des Données - Salaire")
+        afficher_info(salaire, "Salaire")
+        if st.button("Voir Etablissement"):
+            st.session_state.page = "Etablissement"
+        if st.button("Voir Geographic"):
+            st.session_state.page = "Geographic"
+
+
+
+####################################################################################################
+#  Data Viz
+####################################################################################################
+
+
+if page == pages[2] :
+    st.markdown("""<style>h1 {color: #4629dd;  font-size: 70px;/* Changez la couleur du titre h1 ici */} h2 {color: #440154ff;    font-size: 50px /* Changez la couleur du titre h2 ici */} h3{color: #27dce0; font-size: 30px; /* Changez la couleur du titre h3 ici */}</style>""",unsafe_allow_html=True)
+    st.markdown("""<style>body {background-color: #f4f4f4;</style>""",unsafe_allow_html=True)
+
+    st.header("📊 Data Visualisation")
+       
+####################################################################################################
+# Modèle de machine Learning
+####################################################################################################
+
+
+
+if page == pages[4]:
+    st.header("🔮 Prédiction")
+    st.markdown("""<style>h1 {color: #4629dd;  font-size: 70px;/* Changez la couleur du titre h1 ici */} h2 {color: #440154ff;    font-size: 50px /* Changez la couleur du titre h2 ici */} h3{color: #27dce0; font-size: 30px; /* Changez la couleur du titre h3 ici */}</style>""",unsafe_allow_html=True)
+    st.markdown("""<style>body {background-color: #f4f4f4;</style>""",unsafe_allow_html=True)
+
+    # Interface utilisateur Streamlit
+    st.subheader('Simulation de Prédiction avec Random Forest Regressor')
+
+
+    
+####################################################################################################
+# Conclusion
+####################################################################################################
+
+
+if page == pages[5]:
+    st.header("📌 Conclusion")
+    st.markdown("""<style>h1 {color: #4629DD;  font-size: 70px;/* Changez la couleur du titre h1 ici */} h2 {color: #440154ff;    font-size: 50px /* Changez la couleur du titre h2 ici */} h3{color: #27DCE0; font-size: 30px; /* Changez la couleur du titre h3 ici */}</style>""",unsafe_allow_html=True)
+    st.markdown("""<style>body {background-color: #F4F4F4;</style>""",unsafe_allow_html=True)
+    st.write("**Conclusion**")
+
+      #  if st.button("Merci") :
+      #  st.write("Nous souhaiterions remercier pour nous avoir aidé sur ce projet :")
+      #  st.write("- Notre mentor sur le projet Tarik Anouar,")
+      #  st.write("- DataScientest dont les animateurs des masterclasses ")
+      #  st.write("- Les données trouvées sur Kaggle,")
+      # st.write("- ... ChatGPT!")
