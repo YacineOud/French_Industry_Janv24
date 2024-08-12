@@ -96,7 +96,7 @@ if page == pages[0]:
     st.header("👋 Intro")
     st.caption("""**Cursus** : Data Analyst | **Formation** : Formation Continue | **Mois** : Janvier 2024 | **Groupe** : Christophe MONTORIOL, Issam YOUSR, Gwilherm DEVALLAN, Yacine OUDMINE""")
      # Ajouter l'image du bandeau
-    st.image('https://github.com/ChristopheMontoriol/French_Industry_Janv24/blob/440ee9a1fe6aa166f76a9d674a5e0fe26f353bfb/data/Bandeau_FrenchIndustry.png', use_column_width=True)
+    st.image('https://raw.githubusercontent.com/ChristopheMontoriol/French_Industry_Janv24/main/data/Bandeau_FrenchIndustry.png', use_column_width=True)
     st.write("""
         L’objectif premier de ce projet est d’observer et de comprendre quelles sont les inégalités salariales en France. 
         À travers plusieurs jeux de données et plusieurs variables (géographiques, socio-professionnelles, démographiques, mais aussi du nombre d’entreprises par zone), 
